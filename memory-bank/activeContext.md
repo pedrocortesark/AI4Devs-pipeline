@@ -17,8 +17,12 @@ We are establishing the "Brain" of the project to ensure all future agent intera
 - [x] Repository Cleanup (Security Audit, .gitignore)
 - [x] Documentation Update (README.md with CI/CD)
 - [x] Fix CI/CD Triggers (Added 'opened', 'reopened', 'push')
+- [x] Debug SSH Authentication (Fixed Key Format)
+- [x] Fix Deployment Script (Handle initial Clone)
 
 ## Recent Changes
+- Updated `pipeline.yml` to support first-time deployment (Clone vs Pull).
+- Debugging SSH connection failure in CI/CD pipeline.
 - Expanded `.github/workflows/pipeline.yml` triggers to catch all PR events and Merge to Main.
 - Secured repository by updating `.gitignore` and auditing sensitive files.
 - Updated `README.md` with comprehensive CI/CD and OIDC instructions.

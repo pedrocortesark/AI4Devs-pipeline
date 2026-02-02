@@ -204,3 +204,30 @@ Se ha actualizado `.gitignore` y `README.md` para mejorar la seguridad y documen
 **Resumen de la Respuesta/Acción:**
 Se identificó que la configuración anterior de triggers era demasiado restrictiva (solo `synchronize`). Se actualizará para incluir `opened`, `reopened` y `push: branches: [main]`.
 ---
+
+## 009 - Error SSH Key Pipeline
+**Fecha:** 2026-02-02 09:23
+**Prompt Original:**
+> Error cuando ejecuto la action
+> Run appleboy/ssh-action@master
+> ...
+> 2026/02/02 08:21:58 ssh.ParsePrivateKey: ssh: no key found
+> ...
+
+**Resumen de la Respuesta/Acción:**
+El error indica un problema con el secreto `EC2_SSH_KEY` en GitHub. Es probable que el formato sea incorrecto o esté vacía. Se instruirá al usuario para copiar correctamente el contenido.
+---
+
+## 010 - Error Despliegue EC2 (No Git Repo)
+**Fecha:** 2026-02-02 09:31
+**Prompt Original:**
+> Error cuando se ejecutó el pipeline
+> ...
+> fatal: not a git repository (or any of the parent directories): .git
+> npm error enoent Could not read package.json
+> ...
+> Error: RROR] Process or Namespace backend not found
+
+**Resumen de la Respuesta/Acción:**
+El pipeline falla porque intenta hacer `git pull` en una carpeta vacía que aún no ha sido clonada. Se actualizará el script de despliegue en `pipeline.yml` para que detecte si el repositorio existe y realice un `git clone` inicial si es necesario.
+---
