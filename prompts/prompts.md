@@ -93,3 +93,105 @@ Se ha generado la estructura completa del Memory Bank en `/memory-bank/` y se ha
 **Resumen de la Respuesta/Acción:**
 Se ha identificado que el archivo de logs oficial es `prompts/prompts.md` (aunque se solicitó `prompts-log.md`). Se han registrado retroactivamente los prompts de la sesión actual.
 ---
+
+## 003 - Configuración Pipeline CI/CD con GitHub Actions
+**Fecha:** 2026-02-02 06:26
+**Prompt Original:**
+> # Objetivo
+> Configurar un pipeline de CI/CD en GitHub Actions para este repositorio siguiendo requisitos específicos.
+>
+> # Instrucciones para el Agente
+> Analiza el código base en @workspace y crea el archivo `.github/workflows/pipeline.yml`. El flujo debe cumplir con los siguientes puntos:
+>
+> 1. **Trigger Específico:**
+>    - El pipeline debe dispararse únicamente cuando se haga un push a una rama que tenga un Pull Request abierto (evento `synchronize`).
+>
+> 2. **Steps del Job:**
+>    - **Tests de Backend:** Identifica el lenguaje y framework del proyecto y configura la ejecución de los tests unitarios.
+>    - **Build del Backend:** Genera el build o artefacto necesario según la tecnología detectada.
+>    - **Despliegue en EC2:** Configura un paso de despliegue mediante SSH a una instancia de AWS EC2. 
+>      - Utiliza la acción `appleboy/ssh-action`.
+>      - Usa secretos de GitHub para: `EC2_HOST`, `EC2_USER` y `EC2_SSH_KEY`.
+>      - El script de despliegue debe actualizar el código en el servidor y reiniciar el servicio.
+>
+> # Formato de Salida
+> - Genera el código completo del archivo YAML.
+> - Documenta brevemente los comandos utilizados en cada paso basándote en la tecnología que detectes en el repositorio.
+
+**Resumen de la Respuesta/Acción:**
+Se ha configurado el workflow `.github/workflows/pipeline.yml` para CI/CD con trigger `pull_request` (synchronize), tests de backend (Jest/Node), build (tsc) y despliegue a EC2 usando secretos.
+---
+
+## 004 - Implementación Autenticación OIDC
+**Fecha:** 2026-02-02 07:00
+**Prompt Original:**
+> # Objetivo: Implementar Autenticación Segura OIDC para CI/CD
+> Quiero eliminar el uso de AWS Access Keys permanentes y configurar el estándar de la industria: OIDC (OpenID Connect) con Roles de IAM para que GitHub Actions se comunique con AWS de forma segura.
+>
+> # Instrucciones para el Agente (@workspace)
+> Basándote en el repositorio actual, genera una guía completa y el código necesario:
+>
+> 1. **Configuración de Infraestructura (CloudFormation o AWS CLI):**
+>    - Proporciona los comandos o el template para crear el `Identity Provider` de GitHub en mi cuenta de AWS.
+>    - Crea un `IAM Role` con una "Trust Policy" que solo permita el acceso desde este repositorio específico (`{{tu-usuario-o-organizacion}}/{{tu-repo}}`).
+>    - Define una política de "Privilegio Mínimo" para este rol que solo permita realizar el despliegue en mi instancia EC2.
+>
+> 2. **Actualización del Pipeline (.github/workflows/pipeline.yml):**
+>    - Configura los `permissions` del job (necesarios para OIDC): `id-token: write` y `contents: read`.
+>    - Reemplaza cualquier login manual por la acción oficial `aws-actions/configure-aws-credentials@v4`.
+>    - Utiliza el `role-to-assume` apuntando al ARN del rol creado.
+>    - Mantén los pasos de Test, Build y el despliegue mediante SSH a la EC2.
+>
+> # Formato de Salida
+> - Comandos de AWS CLI para la configuración inicial.
+> - Código YAML completo y actualizado para el workflow de GitHub Actions.
+
+**Resumen de la Respuesta/Acción:**
+Se ha implementado OIDC en el pipeline y se han proporcionado comandos manuales para la configuración de AWS.
+---
+
+## 005 - Solicitud Script Configuración AWS
+**Fecha:** 2026-02-02 07:11
+**Prompt Original:**
+> I need specific details about running the AWS CLI tool and configuring all this params
+
+**Resumen de la Respuesta/Acción:**
+Se ha creado un script automatizado `setup-oidc.sh` para facilitar la configuración del entorno AWS y eliminar la ambigüedad en la ejecución de comandos.
+---
+
+## 006 - Creación de Instancia EC2
+**Fecha:** 2026-02-02 07:39
+**Prompt Original:**
+> Necesitaria tambien que me at¡yudaras a crear la EC2 instance en AWS. Revisa el codigo y dame los pasos para ello
+
+**Resumen de la Respuesta/Acción:**
+Se ha creado el script `setup-ec2.sh` para aprovisionar la instancia EC2, Security Group y Key Pair, facilitando el despliegue.
+---
+
+## 007 - Auditoría y Documentación
+**Fecha:** 2026-02-02 08:23
+**Prompt Original:**
+> # Objetivo: Organización, Seguridad y Documentación del Repositorio
+> Como Architect Agent, necesito que realices una auditoría y limpieza del repositorio antes de finalizar la implementación del pipeline.
+>
+> # Instrucciones para el Agente (@workspace)
+>
+> ## 1. Auditoría de Seguridad y Limpieza
+> - Escanea el repositorio en busca de archivos sensibles que NO deban estar en el control de versiones (ej. archivos `.pem`, `.env`, archivos de logs o carpetas `node_modules`).
+> - Si encuentras secretos o llaves expuestas, indícame cuáles son para eliminarlos y asegúrate de agregarlos al archivo `.gitignore`.
+> - Organiza la estructura de carpetas si detectas desorden en los archivos de configuración.
+>
+> ## 2. Documentación (README.md)
+> Crea o actualiza el archivo `README.md` incluyendo una sección específica para el Pipeline de CI/CD que contenga:
+> - **Descripción:** Qué hace el pipeline (Tests, Build, Deploy a EC2 vía OIDC).
+> - **Requisitos previos:** Menciona los Secrets de GitHub necesarios (`AWS_ROLE_ARN`, `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`).
+> - **Instrucciones de Testeo:** Pasos exactos para disparar el pipeline (crear rama, push y abrir PR).
+> - **Guía de mantenimiento:** Cómo actualizar el comando de reinicio en la EC2 si el backend cambia.
+>
+> ## 3. Verificación de Estado
+> - Revisa si el archivo `.github/workflows/pipeline.yml` está correctamente configurado con los permisos de OIDC.
+> - Si falta algún paso técnico o configuración en AWS por realizar, lístalo al final de tu respuesta.
+
+**Resumen de la Respuesta/Acción:**
+(En progreso) Auditoría de seguridad (gitignore), actualización de README.md con documentación de CI/CD y verificación final de configuraciones.
+---

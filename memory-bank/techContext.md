@@ -20,8 +20,11 @@
 
 ### Infrastructure & DevOps
 - **Containerization:** Docker, Docker Compose
-- **Hosting:** EC2 (AWS) suggested in README.
-- **CI/CD:** GitHub Actions (implied by README).
+- **Hosting:** AWS EC2 (t2.micro, Amazon Linux 2023)
+- **Security:**
+    - **Group:** `LTI-SecurityGroup`
+    - **Ports:** 22 (SSH), 80 (HTTP), 3000 (Frontend), 3010 (Backend)
+- **CI/CD:** GitHub Actions (Backend CI/CD with OIDC)
 
 ## Development Environment
 - **Node Version:** 16.x or higher recommended.
