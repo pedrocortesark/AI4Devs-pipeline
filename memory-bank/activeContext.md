@@ -16,8 +16,10 @@ We are establishing the "Brain" of the project to ensure all future agent intera
 - [x] Create EC2 Provisioning Script (`setup-ec2.sh`)
 - [x] Repository Cleanup (Security Audit, .gitignore)
 - [x] Documentation Update (README.md with CI/CD)
+- [x] Fix CI/CD Triggers (Added 'opened', 'reopened', 'push')
 
 ## Recent Changes
+- Expanded `.github/workflows/pipeline.yml` triggers to catch all PR events and Merge to Main.
 - Secured repository by updating `.gitignore` and auditing sensitive files.
 - Updated `README.md` with comprehensive CI/CD and OIDC instructions.
 - Created `setup-ec2.sh` to provision EC2 instance.

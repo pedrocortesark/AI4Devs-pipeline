@@ -193,5 +193,14 @@ Se ha creado el script `setup-ec2.sh` para aprovisionar la instancia EC2, Securi
 > - Si falta algún paso técnico o configuración en AWS por realizar, lístalo al final de tu respuesta.
 
 **Resumen de la Respuesta/Acción:**
-(En progreso) Auditoría de seguridad (gitignore), actualización de README.md con documentación de CI/CD y verificación final de configuraciones.
+Se ha actualizado `.gitignore` y `README.md` para mejorar la seguridad y documentación.
+---
+
+## 008 - Debugging CI/CD Triggers
+**Fecha:** 2026-02-02 09:12
+**Prompt Original:**
+> Por algun motivo el CI/CD Pipelin no se está ejecutando. Ni cuando abro PR ni cuando la mergeo sobre main
+
+**Resumen de la Respuesta/Acción:**
+Se identificó que la configuración anterior de triggers era demasiado restrictiva (solo `synchronize`). Se actualizará para incluir `opened`, `reopened` y `push: branches: [main]`.
 ---
