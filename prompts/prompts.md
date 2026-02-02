@@ -193,5 +193,60 @@ Se ha creado el script `setup-ec2.sh` para aprovisionar la instancia EC2, Securi
 > - Si falta algún paso técnico o configuración en AWS por realizar, lístalo al final de tu respuesta.
 
 **Resumen de la Respuesta/Acción:**
-(En progreso) Auditoría de seguridad (gitignore), actualización de README.md con documentación de CI/CD y verificación final de configuraciones.
+Se ha actualizado `.gitignore` y `README.md` para mejorar la seguridad y documentación.
+---
+
+## 008 - Debugging CI/CD Triggers
+**Fecha:** 2026-02-02 09:12
+**Prompt Original:**
+> Por algun motivo el CI/CD Pipelin no se está ejecutando. Ni cuando abro PR ni cuando la mergeo sobre main
+
+**Resumen de la Respuesta/Acción:**
+Se identificó que la configuración anterior de triggers era demasiado restrictiva (solo `synchronize`). Se actualizará para incluir `opened`, `reopened` y `push: branches: [main]`.
+---
+
+## 009 - Error SSH Key Pipeline
+**Fecha:** 2026-02-02 09:23
+**Prompt Original:**
+> Error cuando ejecuto la action
+> Run appleboy/ssh-action@master
+> ...
+> 2026/02/02 08:21:58 ssh.ParsePrivateKey: ssh: no key found
+> ...
+
+**Resumen de la Respuesta/Acción:**
+El error indica un problema con el secreto `EC2_SSH_KEY` en GitHub. Es probable que el formato sea incorrecto o esté vacía. Se instruirá al usuario para copiar correctamente el contenido.
+---
+
+## 010 - Error Despliegue EC2 (No Git Repo)
+**Fecha:** 2026-02-02 09:31
+**Prompt Original:**
+> Error cuando se ejecutó el pipeline
+> ...
+> fatal: not a git repository (or any of the parent directories): .git
+> npm error enoent Could not read package.json
+> ...
+> Error: RROR] Process or Namespace backend not found
+
+**Resumen de la Respuesta/Acción:**
+El pipeline falla porque intenta hacer `git pull` en una carpeta vacía que aún no ha sido clonada. Se actualizará el script de despliegue en `pipeline.yml` para que detecte si el repositorio existe y realice un `git clone` inicial si es necesario.
+---
+
+## 011 - Confirmación Despliegue Exitoso
+**Fecha:** 2026-02-02 09:40
+**Prompt Original:**
+> Este es el log que puedo ver en Github Actions.
+> ...
+> Cloning repository...
+> [PM2] Starting ... in fork_mode
+> ✅ Successfully executed commands to all hosts.
+> ...
+> Quiero saber si todo se ha realizado correctamebnte
+
+**Resumen de la Respuesta/Acción:**
+Análisis de logs: El despliegue fue **EXITOSO**.
+- `git clone`: Funcionó correctamente (detectó que no existía).
+- `npm install/build`: Completado.
+- `pm2`: Detectó que el proceso no existía y lo inició correctamente (`fork_mode`, status `online`).
+Se actualizará el Memory Bank para reflejar el éxito y cerrar la tarea.
 ---
