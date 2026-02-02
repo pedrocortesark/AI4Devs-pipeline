@@ -19,9 +19,12 @@ We are establishing the "Brain" of the project to ensure all future agent intera
 - [x] Fix CI/CD Triggers (Added 'opened', 'reopened', 'push')
 - [x] Debug SSH Authentication (Fixed Key Format)
 - [x] Fix Deployment Script (Handle initial Clone)
+- [x] Verify Deployment (Success confirmed via logs)
 
 ## Recent Changes
-- Updated `pipeline.yml` to support first-time deployment (Clone vs Pull).
+- **CI/CD Pipeline Successfully Verified.**
+- Backend deployed to EC2 and running via PM2.
+- Updated `pipeline.yml` to support first-time deployment.
 - Debugging SSH connection failure in CI/CD pipeline.
 - Expanded `.github/workflows/pipeline.yml` triggers to catch all PR events and Merge to Main.
 - Secured repository by updating `.gitignore` and auditing sensitive files.
